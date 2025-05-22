@@ -17,6 +17,10 @@ def watermark():
     output_pdf = f"temp/watermarked_{order_number}.pdf"
 
     doc = fitz.open(input_pdf)
+    except Exception as e:
+        print("PDF open error:", e)
+        return {"error": f"Failed to open PDF: {str(e)}"}, 500
+
     for page in doc:
         page.insert_text((50, 50), f"Order: {order_number}\n{email}", fontsize=12, opacity=0.5)
     doc.save(output_pdf)
